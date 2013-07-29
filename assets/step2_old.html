@@ -1,0 +1,147 @@
+{% extends "layout.html" %}
+
+{% block facebookui %}
+	
+{% endblock %}
+
+{% block body %}
+		
+		<div class="wrap blue">
+			<h1 style="text-align:center">Choisissez parmi vos amis !</h1>
+			<p style="text-align:center">Saisissez le nom de vos amis Facebook et ajoutez les à la liste de diffusion. Lorsque vous en aurez ajouté au moins 5, vous pourrez valider votre participation !</p>
+		</div>
+		
+		<form action="{{ path('validation') }}" class="wrap" method="post">
+		
+			<div class="col left">
+				<a href="#" onclick="event.preventDefault();" id="prev-page"></a>
+				<a href="#" onclick="event.preventDefault();" id="next-page"></a>
+				<h2 style="text-align:center;">Vos amis</h2>
+				<ul class="friendslist" id="source" data-nbfriends="{{ nb_friends }}" data-nbperpage="{{ nb_per_page }}"></ul>
+			</div>
+			
+			<div class="col right">
+				<h2 style="text-align:center;">Votre sélection</h2>
+				<ul class="friendslist" id="selection"></ul>
+			</div>
+			
+			<div style="clear:both;padding-top:40px;">
+				<p style="text-align:center;color:#c00;display:none;" id="errors"></p>
+				
+				<p style="text-align:center;">
+					<input type="submit" id="validate" class="button" value="Valider ma participation">
+				</p>
+			</div>
+			
+		</form>
+		
+<script>
+$(document).ready(function() {
+	
+	var busy = false;
+	var getFriendsTimeout = null;
+	var pagenum = 0;
+	var nbfriends = parseInt($('#source').data('nbfriends'));
+	var nbperpage = parseInt($('#source').data('nbperpage'));
+	var nbpages = Math.ceil(nbfriends/nbperpage)-1;
+	
+	function getFriends() {
+		busy = true;
+		$('#errors').text('').hide();
+		
+		var count = nbfriends - $('#selection li').length;
+		nbpages = Math.ceil(count/nbperpage)-1;
+		if(pagenum > nbpages) pagenum = nbpages;
+		
+		if(pagenum == 0) {
+			$("#prev-page").css({opacity:.3});
+		}else{
+			$("#prev-page").css({opacity:1});
+		}
+		if(pagenum == nbpages) {
+			$("#next-page").css({opacity:.3});
+		}else{
+			$("#next-page").css({opacity:1});
+		}
+		
+		var uids = [];
+		$('#selection a').each(function(idx,friend) {
+			uids.push($(friend).data('uid'));
+		});
+		
+		$.ajax({
+			url: "{{ path('get-friends') }}/"+pagenum,
+			type: "POST",
+			data: {'uids':uids},
+			dataType: 'json'
+		})
+		.success(function(friendlist) {
+			$('#source').empty();
+			for(var idx in friendlist) {
+				var datas = friendlist[idx];
+				//console.log(datas);
+				var friend = 
+					'<li><a href="#" data-uid="'+datas['uid']+'">'+
+						'<img src="'+datas['pic_square']+'">'+
+						'<span>'+datas['name']+'</span><br>'+
+						'<em>'+datas['username']+'</em>'+
+					'</a></li>';
+				$('#source').append(friend);
+			}
+			busy = false;
+		});
+	}
+	
+	$('#source').on('click', 'a', function(e) {
+		if(busy) return false;
+		busy = true;
+		
+		var $friend = $(this).detach();
+		$friend.append('<input type="hidden" name="friends-uid[]" value="'+$friend.data('uid')+'">')
+		$('#selection').append($('<li></li>').append($friend));
+		
+		getFriends();
+		return false;
+	});
+	
+	$('#selection').on('click', 'a', function(e) {
+		e.preventDefault();
+		$(this).parent('li').remove();
+		getFriends();
+		return false;
+	});
+	
+	$("#prev-page").click(function(e) {
+		if(busy || pagenum<=0) return false;
+		pagenum--;
+		getFriends();
+		return false;
+	})
+	.css({opacity:0.3});
+	
+	$("#next-page").click(function(e) {
+		if(busy || pagenum>=nbpages) return false;
+		pagenum++;
+		getFriends();
+		return false;
+	});
+	
+	$('#validate').click(function() {
+		if($('#selection li').length<{{ required_nb_friends }}) {
+			$('#errors').text('Veuillez choisir au moins {{ required_nb_friends }} de vos amis.').show();
+			return false;
+		}
+		
+		var batch = FB.ui({ 
+	        method : 'apprequests',
+	        message: 'Test message',
+	        title: 'Test title'
+	    });
+		
+	});
+	
+	getFriends();
+});
+</script>
+		
+{% endblock %}

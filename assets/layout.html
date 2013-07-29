@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=2.0, user-scalable=yes" />
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>Jeu Facebook Tablette Store ASUS FonePad</title>
+  <meta property="og:title" content="{{ og.name }}" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="{{ og.url }}" />
+  <meta property="og:image" content="{{ og.image }}" />
+  <meta property="og:site_name" content="{{ og.name }}" />
+  <meta property="og:description" content="My first app" />
+  <meta property="fb:app_id" content="{{ og.id }}" />
+  <link href="/assets/css/normalize.css" media="screen" rel="stylesheet" type="text/css" />
+  <link href="/assets/css/styles.css" media="screen" rel="stylesheet" type="text/css" />
+  <script src="/assets/js/jquery-1.9.1.min.js"></script>
+</head>
+<body>
+<div id="fb-root"></div>
+<script type="text/javascript">
+  window.fbAsyncInit = function() {
+    FB.init({
+      appId      : '{{ og.id }}',
+      channelUrl : '//{{ og.host }}/channel.html',
+      status     : true,
+      cookie     : true,
+      xfbml      : true
+    });
+    FB.Event.subscribe('auth.login', function(response) {
+      console.log('FB auth.login');
+      window.location = window.location;
+    });
+    FB.Canvas.setAutoGrow();
+  };
+  (function(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = "//connect.facebook.net/fr_FR/all.js";
+    fjs.parentNode.insertBefore(js, fjs);
+  }(document, 'script', 'facebook-jssdk'));
+</script>
+<div id="container">
+{% block body %}
+
+{% endblock %}
+</div>
+{% block javascripts %}
+{% endblock %}
+</body>
+</html>

@@ -1,0 +1,64 @@
+{% extends "layout.html" %}
+
+{% block body %}
+
+	<div class="wrap blue" style="padding:10px;">
+		<p style="text-align:center">Bienvenue <strong>{{ username|raw }}</strong> !</p>
+		<p><a href="/test">Test</a></p>
+	</div>
+
+	<div id="fonepad">
+		<img src="/assets/images/fonepad-tablet.png" id="fonepad-tablet">
+		<img src="/assets/images/fonepad-shadow.png" id="fonepad-shadow">
+		<img src="/assets/images/fonepad-title.png" id="fonepad-title">
+		
+		<div id="fonepad-stats">
+			<p>ME371MG - 3G 16Go Champagne</p>
+			<ul>
+				<li>Wifi + 3G + Téléphone</li>
+				<li>Ecran IPS 7" angles de vue larges</li>
+				<li>Processeur Intel® Atom™ 1.2Ghz</li>
+				<li>Une finition métallique brossée</li>
+				<li>9h d'autonomie en utilisation</li>
+			</ul>
+			<p><a href="#">Plus d'infos&hellip;</a></p>
+		</div>
+		
+	</div>
+	
+	<div class="wrap blue">
+		<h2>Comment participer ?</h2>
+		<p>Choisissez au moins 5 de vos amis auquels nous enverrons un message. C’est aussi simple que cela ! Vos amis seront invités à participer eux aussi à notre jeu.</p>
+	</div>
+	
+	<div class="wrap">
+		<div class="col left">
+			<h2>Calendrier des tirages</h2>
+			<ul class="results">
+				<li class="done">Lundi 12 août</li>
+				<li class="done">Lundi 19 août</li>
+				<li>Lundi 26 août</li>
+				<li>Lundi 2 septembre</li>
+				<li>Lundi 9 septembre</li>
+				<li>Lundi 16 septembre</li>
+			</ul>
+		</div>
+		<div class="col right">
+			<h2>Les gagnants</h2>
+			<ul class="results">
+				<li>Nom gagnant #1</li>
+				<li>Nom gagnant #2</li>
+			</ul>
+		</div>
+	</div>
+	
+	<div class="wrap blue">
+		<div class="col left">
+			<h2 style="text-align:right;line-height:2em;margin:0;">Vous êtes prêt ?</h2>
+		</div>
+		<div class="col right">
+			<a href="{{ path('participate') }}" class="button">Je participe !</a>
+		</div>
+	</div>
+		
+{% endblock %}

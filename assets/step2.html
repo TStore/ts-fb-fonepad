@@ -1,0 +1,63 @@
+{% extends "layout.html" %}
+
+{% block facebookui %}
+	
+{% endblock %}
+
+{% block body %}
+		
+		<div class="wrap blue">
+			<h1 style="text-align:center">Choisissez parmi vos amis !</h1>
+			<p style="text-align:center">Saisissez le nom de vos amis Facebook et ajoutez les à la liste de diffusion. Lorsque vous en aurez ajouté au moins 5, vous pourrez valider votre participation !</p>
+		</div>
+		
+		<div class="wrap">
+			<div class="col left">
+				<h2 style="line-height:2em;">1. Publiez sur votre mur</h2>
+			</div>
+			<div class="col right">
+				<a id="publish" class="button">Publier</a>
+			</div>
+		</div>
+		
+		<div class="wrap">
+			<div class="col left">
+				<h2 style="line-height:2em;">2. Invitez 5 amis</h2>
+			</div>
+			<div class="col right">
+				<a id="invite" class="button">Inviter des amis</a>
+			</div>
+		</div>
+		
+<script>
+$(document).ready(function() {
+		
+	$('#publish').click(function() {
+		FB.ui({ 
+			method: 'feed',
+		    link: '{{ og.url }}',
+		    picture: 'http://static.tablette-store.com/product/asus-fonepad-me371mg-3g-16go-champagne-vue-face.jpg',
+		    name: 'Gagnez un FonePad',
+		    caption: 'Tentez votre chance avec notre jeu concours ...',
+		    description: 'Une tablette tactile Asus FonePad a gagner chaque semaine !'
+	    }, function(response) {
+	    	console.log(response.post_id);
+	    });
+		return false;
+	});
+		
+	$('#invite').click(function() {
+		FB.ui({ 
+	        method : 'apprequests',
+	        message: 'Test message',
+	        title: 'Test title'
+	    }, function(response) {
+	    	console.log(response.request);
+	    	console.log(response.to);
+	    });
+		return false;
+	});
+});
+</script>
+		
+{% endblock %}
