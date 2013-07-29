@@ -1,7 +1,7 @@
 TStore - FB FonePad
 ===================
 
-> <VirtualHost *:80>
+> &lt;VirtualHost *:80&rt;
 
 >   DocumentRoot "c:/wwwroot/ts-fb-fonepad/web/"
 
@@ -13,12 +13,12 @@ TStore - FB FonePad
 
 >   SetEnv FACEBOOK_SECRET ################################
 
->   <Directory "c:/wwwroot/ts-fb-fonepad/web/">
+>   &lt;Directory "c:/wwwroot/ts-fb-fonepad/web/"&rt;
 
 >     AllowOverride All
 
 >     Allow from All
 
->   </Directory>
+>   &lt;/Directory&rt;
 
-> </VirtualHost>
+> &lt;/VirtualHost&rt;
