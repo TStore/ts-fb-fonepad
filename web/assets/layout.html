@@ -28,7 +28,6 @@
       xfbml      : true
     });
     FB.Event.subscribe('auth.login', function(response) {
-      console.log('FB auth.login');
       window.location = window.location;
     });
     FB.Canvas.setAutoGrow();

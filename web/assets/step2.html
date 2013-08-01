@@ -59,13 +59,11 @@ $(document).ready(function() {
 			    	}).
 			    	done(function(response) {
 			    		if(response === 'OK') {
-				    		console.log('Success');
 				    		$('#publish a').removeClass('check').addClass('checked').unbind('click');
 				    		initInvite();
 			    		}
 			    	})
 			    	.fail(function(){
-			    		console.log('Failure');
 			    	});
 		    	}
 		    });
@@ -83,8 +81,6 @@ $(document).ready(function() {
 		        title: 'Un fonepad à gagner par semaine.'
 		    }, function(response) {
 		    	if(response != undefined) {
-			    	console.log(response.request);
-			    	console.log(response.to);
 			    	nb_invit += response.to.length;
 			    	if(nb_invit > 3) {
 			    		$('#invite a').removeClass('check').addClass('checked');

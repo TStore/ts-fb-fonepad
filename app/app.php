@@ -5,16 +5,10 @@
 
 
 require_once __DIR__.'/../vendor/autoload.php';
+
+require_once 'config.php';
 require_once 'MySql.php';
-
-define( 'SQL_SERVER',	'localhost');
-define( 'SQL_BDD',		'tablette-store' );
-define( 'SQL_USER',		'root');
-define( 'SQL_PWD',		'mammout');
-
 MySql::Init(SQL_SERVER, SQL_USER, SQL_PWD, SQL_BDD);
-
-define('FBGA', 't_facebookgame_fbga');
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -82,40 +76,32 @@ function testRegistered($app) {
  */
 $loginCheck = function (Request $request, Silex\Application $app) {
     $facebook = $app['facebook'];
-    
-    $user = $facebook->getUser();
-    if (!$user) {
-        $app_url = 'https://apps.facebook.com/tablettestore/';
+    $user_id = $facebook->getUser();
         
-        $loginUrl = $facebook->getLoginUrl(array(
-            'scope' => 'email,publish_actions',
-            'redirect_uri' => $app_url,
-        ));
-        
-        print('<script> top.location.href=\'' . $loginUrl . '\'</script>');
-        exit();
-    }
-    
-    /*$user_id = $facebook->getUser();
     if (!$user_id) {
+        ChromePhp::log('LoginCheck : User ID undefined');
         return new RedirectResponse('/login');
     }
     try {
         $basic = $facebook->api('/me');
     } catch (FacebookApiException $e) {
+        ChromePhp::log('LoginCheck : '.$e->getMessage());
         return new RedirectResponse('/login');
     }
     
     // Delete FB Requests
-    $request_ids = explode(',', $request->query->get('request_ids'));
-    foreach ($request_ids as $request_id) {
-        $full_request_id = $request_id . '_' . $user_id;    
-        try {
-            $delete_success = $facebook->api("/$full_request_id",'DELETE');
-        } catch (FacebookApiException $e) {
-            
+    if(false !== $req_param = $request->query->get('request_ids', false)) {
+        ChromePhp::log('LoginCheck : Deleting request');
+        $request_ids = explode(',', $req_param);
+        foreach ($request_ids as $request_id) {
+            $full_request_id = $request_id . '_' . $user_id;    
+            try {
+                $delete_success = $facebook->api("/$full_request_id",'DELETE');
+            } catch (FacebookApiException $e) {
+                
+            }
         }
-    }*/
+    }
 };
 
 
@@ -152,7 +138,7 @@ $app->match('/', function () use ($app) {
         $basic = $facebook->api('/me');
     } catch (FacebookApiException $e) {
         if (!$facebook->getUser()) {
-            return new RedirectResponse('/login');
+            //return new RedirectResponse('/login');
         }
     }
     

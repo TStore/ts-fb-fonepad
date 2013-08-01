@@ -3,3 +3,4 @@
 .project
 vendor/*
 rez/*
+app/config.php
