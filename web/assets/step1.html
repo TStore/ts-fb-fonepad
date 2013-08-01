@@ -3,8 +3,12 @@
 {% block body %}
 
 	<div class="wrap blue" style="padding:10px;">
+		{% if done %}
+		<p style="text-align:center">Heureux de vous revoir <strong>{{ username|raw }}</strong> !<br>
+		<span style="font-size:0.8em;">Vous êtes déjà inscrit à notre jeu concours.</span></p>
+		{% else %}
 		<p style="text-align:center">Bienvenue <strong>{{ username|raw }}</strong> !</p>
-		<p><a href="/test">Test</a></p>
+		{% endif %}
 	</div>
 
 	<div id="fonepad">
@@ -21,37 +25,38 @@
 				<li>Une finition métallique brossée</li>
 				<li>9h d'autonomie en utilisation</li>
 			</ul>
-			<p><a href="#">Plus d'infos&hellip;</a></p>
+			<p><a href="http://www.tablette-store.com/tablettes-tactiles/asus-fonepad-me371mg-3g-16go-champagne.html#tablet" target="_blank">Plus d'infos&hellip;</a></p>
 		</div>
 		
 	</div>
 	
+	{% if not done %}
 	<div class="wrap blue">
 		<h2>Comment participer ?</h2>
 		<p>Choisissez au moins 5 de vos amis auquels nous enverrons un message. C’est aussi simple que cela ! Vos amis seront invités à participer eux aussi à notre jeu.</p>
 	</div>
+	{% endif %}
 	
 	<div class="wrap">
 		<div class="col left">
 			<h2>Calendrier des tirages</h2>
 			<ul class="results">
-				<li class="done">Lundi 12 août</li>
-				<li class="done">Lundi 19 août</li>
-				<li>Lundi 26 août</li>
-				<li>Lundi 2 septembre</li>
-				<li>Lundi 9 septembre</li>
-				<li>Lundi 16 septembre</li>
+				{% for date in dates %}
+				<li{% if date.done %} class="done"{% endif %}>{{ date.label }}</li>
+				{% endfor %}
 			</ul>
 		</div>
 		<div class="col right">
 			<h2>Les gagnants</h2>
 			<ul class="results">
-				<li>Nom gagnant #1</li>
-				<li>Nom gagnant #2</li>
+				{% for name in winners %}
+				<li>{{ name }}</li>
+				{% endfor %}
 			</ul>
 		</div>
 	</div>
 	
+	{% if not done %}
 	<div class="wrap blue">
 		<div class="col left">
 			<h2 style="text-align:right;line-height:2em;margin:0;">Vous êtes prêt ?</h2>
@@ -60,5 +65,6 @@
 			<a href="{{ path('participate') }}" class="button">Je participe !</a>
 		</div>
 	</div>
+	{% endif %}
 		
 {% endblock %}

@@ -16,8 +16,11 @@ div#container {
   width:760px; margin:30px auto; background:transparent; box-shadow:0 4px 10px rgba(0,0,0,.3);
 }
 
+.clear { clear:both; }
 .wrap { background:#f5f0eb; padding:40px 50px; color:#333; overflow:hidden; }
 .wrap.blue { background:#0f86c4; color:#fff; }
+.group { overflow:hidden; clear:both; margin-top:30px; }
+.group:first-child { margin-top:20px; }
 div.col { width:305px; }
 div.col.left { float:left; }
 div.col.right { float:right; }
@@ -78,12 +81,60 @@ ul.results li:before {
   text-shadow:0 -1px 0 #cc3300;
   text-decoration:none;
   font-size:1.6em;
-  line-height:2em;
-  padding:0 30px;
+  line-height:1.6em;
+  padding:5px 30px;
+  cursor:pointer;
 }
 .button:hover {
   color:#0f86c4;
   text-shadow:0 -1px 0 #003366;
+}
+
+
+.button.check {
+  padding-left:16px;
+}
+.button.check:before {
+  content: "";
+  display:inline-block;
+  width:24px; height:24px;
+  background:url(/assets/images/checkboxe.png) no-repeat 0 0 scroll;
+  position:relative; top:2px;
+  margin-right:7px;
+}
+
+.button.checked, .group.disabled .button {
+  background-color: #f9b774;
+  *background-color: #f9b774;
+  background-image: -moz-linear-gradient(top, #f9c374, #f9aa74);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#f9c374), to(#f9aa74));
+  background-image: -webkit-linear-gradient(top, #f9c374, #f9aa74);
+  background-image: -o-linear-gradient(top, #f9c374, #f9aa74);
+  background-image: linear-gradient(to bottom, #f9c374, #f9aa74);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fff9c374', endColorstr='#fff9aa74', GradientType=0);
+  text-shadow:0 -1px 0 #e2783a;
+}
+.button.checked {
+  padding-left:16px;
+}
+.button.checked:hover, .group.disabled .button {
+  color:#ffffff;
+  text-shadow:0 -1px 0 #e2783a;
+  cursor:default;
+}
+.button.checked:before {
+  content: "";
+  display:inline-block;
+  width:24px; height:24px;
+  background:url(/assets/images/checkboxe.png) no-repeat 0 -24px scroll;
+  position:relative; top:2px;
+  margin-right:7px;
+}
+
+
+.group.disabled h2 {
+  color:#CCC;
 }
 
 

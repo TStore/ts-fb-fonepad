@@ -12,51 +12,96 @@
 		</div>
 		
 		<div class="wrap">
-			<div class="col left">
-				<h2 style="line-height:2em;">1. Publiez sur votre mur</h2>
+			<div class="group" id="publish">
+				<div class="col left">
+					<h2 style="line-height:2em;">1. Publiez sur votre mur</h2>
+				</div>
+				<div class="col right">
+					<a class="button check">Publier</a>
+				</div>
 			</div>
-			<div class="col right">
-				<a id="publish" class="button">Publier</a>
+			<div class="group disabled" id="invite">
+				<div class="col left">
+					<h2 style="line-height:2em;">2. Invitez 5 amis ou plus</h2>
+				</div>
+				<div class="col right">
+					<a class="button check">Inviter des amis</a>
+				</div>
 			</div>
-		</div>
-		
-		<div class="wrap">
-			<div class="col left">
-				<h2 style="line-height:2em;">2. Invitez 5 amis</h2>
-			</div>
-			<div class="col right">
-				<a id="invite" class="button">Inviter des amis</a>
+			<div class="group disabled" id="validate">
+				<div class="col left">
+					<h2 style="line-height:2em;">3. Validez</h2>
+				</div>
+				<div class="col right">
+					<a class="button">Valider</a>
+				</div>
 			</div>
 		</div>
 		
 <script>
 $(document).ready(function() {
-		
-	$('#publish').click(function() {
-		FB.ui({ 
-			method: 'feed',
-		    link: '{{ og.url }}',
-		    picture: 'http://static.tablette-store.com/product/asus-fonepad-me371mg-3g-16go-champagne-vue-face.jpg',
-		    name: 'Gagnez un FonePad',
-		    caption: 'Tentez votre chance avec notre jeu concours ...',
-		    description: 'Une tablette tactile Asus FonePad a gagner chaque semaine !'
-	    }, function(response) {
-	    	console.log(response.post_id);
-	    });
-		return false;
-	});
-		
-	$('#invite').click(function() {
-		FB.ui({ 
-	        method : 'apprequests',
-	        message: 'Test message',
-	        title: 'Test title'
-	    }, function(response) {
-	    	console.log(response.request);
-	    	console.log(response.to);
-	    });
-		return false;
-	});
+	function initPublish() {
+		$('#publish a').click(function() {
+			FB.ui({ 
+				method: 'feed',
+			    link: '{{ og.url }}',
+			    picture: 'http://static.tablette-store.com/product/asus-fonepad-me371mg-3g-16go-champagne-vue-face.jpg',
+			    name: 'Gagnez un FonePad',
+			    caption: 'Tentez votre chance avec notre jeu concours ...',
+			    description: 'Une tablette tactile Asus FonePad a gagner chaque semaine !'
+		    }, function(response) {
+		    	if(response != undefined) {
+			    	console.log('Registering post');
+			    	$.ajax({
+			    		url: "{{ path('register_post') }}",
+			    		type: "POST",
+			    		data: {post_id:response.post_id}
+			    	}).
+			    	done(function(response) {
+			    		if(response === 'OK') {
+				    		console.log('Success');
+				    		$('#publish a').removeClass('check').addClass('checked').unbind('click');
+				    		initInvite();
+			    		}
+			    	})
+			    	.fail(function(){
+			    		console.log('Failure');
+			    	});
+		    	}
+		    });
+			return false;
+		});
+	}
+	
+	var nb_invit = 0;
+	function initInvite() {
+		$('#invite').removeClass('disabled');
+		$('#invite a').click(function() {
+			FB.ui({ 
+		        method : 'apprequests',
+		        message: 'Viens donc tenter ta chance pour gagner un fonepad !',
+		        title: 'Un fonepad à gagner par semaine.'
+		    }, function(response) {
+		    	if(response != undefined) {
+			    	console.log(response.request);
+			    	console.log(response.to);
+			    	nb_invit += response.to.length;
+			    	if(nb_invit > 3) {
+			    		$('#invite a').removeClass('check').addClass('checked');
+			    		initValidate();
+			    	}
+		    	}
+		    });
+			return false;
+		});
+	}
+	
+	function initValidate() {
+		$('#validate').removeClass('disabled');
+		$('#validate a').click(function() { window.location = "{{ path('confirmation') }}"; return false; });
+	}
+	
+	initPublish();
 });
 </script>
 		
