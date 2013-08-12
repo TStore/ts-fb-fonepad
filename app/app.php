@@ -237,7 +237,7 @@ $app->post('/register_post', function (Request $request) use ($app) {
     
     return new Response('Not found', 404);
 })
-->before($loginCheck)
+//->before($loginCheck)
 ->bind('register_post');
 
 
@@ -249,7 +249,6 @@ $app->get('/confirmation', function () use ($app) {
     return $app['twig']->render('step3.html', array());
     
 })
-->before($loginCheck)
 ->bind('confirmation');
 
 
