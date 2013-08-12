@@ -7,14 +7,14 @@
 {% block body %}
 		
 		<div class="wrap blue">
-			<h1 style="text-align:center">Choisissez parmi vos amis !</h1>
-			<p style="text-align:center">Saisissez le nom de vos amis Facebook et ajoutez les à la liste de diffusion. Lorsque vous en aurez ajouté au moins 5, vous pourrez valider votre participation !</p>
+			<h1 style="text-align:center">À toi de jouer !</h1>
+			<p style="text-align:center">Pour participer à notre jeu, réalise les trois actions ci dessous.</p>
 		</div>
 		
 		<div class="wrap">
 			<div class="group" id="publish">
 				<div class="col left">
-					<h2 style="line-height:2em;">1. Publiez sur votre mur</h2>
+					<h2 style="line-height:2em;">1. Publie sur ton mur</h2>
 				</div>
 				<div class="col right">
 					<a class="button check">Publier</a>
@@ -22,7 +22,7 @@
 			</div>
 			<div class="group disabled" id="invite">
 				<div class="col left">
-					<h2 style="line-height:2em;">2. Invitez 5 amis ou plus</h2>
+					<h2 style="line-height:2em;">2. Invite 5 amis ou plus</h2>
 				</div>
 				<div class="col right">
 					<a class="button check">Inviter des amis</a>
@@ -30,7 +30,7 @@
 			</div>
 			<div class="group disabled" id="validate">
 				<div class="col left">
-					<h2 style="line-height:2em;">3. Validez</h2>
+					<h2 style="line-height:2em;">3. Valide ton inscription</h2>
 				</div>
 				<div class="col right">
 					<a class="button">Valider</a>
@@ -46,9 +46,9 @@ $(document).ready(function() {
 				method: 'feed',
 			    link: '{{ og.url }}',
 			    picture: 'http://static.tablette-store.com/product/asus-fonepad-me371mg-3g-16go-champagne-vue-face.jpg',
-			    name: 'Gagnez un FonePad',
-			    caption: 'Tentez votre chance avec notre jeu concours ...',
-			    description: 'Une tablette tactile Asus FonePad a gagner chaque semaine !'
+			    name: 'Jeu concours Tablette Store',
+			    caption: 'Une tablette tactile Asus FonePad à gagner chaque semaine !',
+			    description: "Avec un écran 7 pouces et équipée de la 3G, cette tablette fait aussi téléphone mobile. Vous aussi venez tenter votre chance !"
 		    }, function(response) {
 		    	if(response != undefined) {
 			    	console.log('Registering post');
@@ -77,12 +77,12 @@ $(document).ready(function() {
 		$('#invite a').click(function() {
 			FB.ui({ 
 		        method : 'apprequests',
-		        message: 'Viens donc tenter ta chance pour gagner un fonepad !',
+		        message: 'Viens donc tenter ta chance pour gagner un fonepad :)',
 		        title: 'Un fonepad à gagner par semaine.'
 		    }, function(response) {
 		    	if(response != undefined) {
 			    	nb_invit += response.to.length;
-			    	if(nb_invit > 3) {
+			    	if(nb_invit > 4) {
 			    		$('#invite a').removeClass('check').addClass('checked');
 			    		initValidate();
 			    	}

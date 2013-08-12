@@ -1,22 +1,30 @@
 {% extends "layout.html" %}
 
+{% block javascripts %}
+  {{ parent() }}
+  <script src="/assets/js/easing/EasePack.min.js"></script>
+  <script src="/assets/js/CSSPlugin.min.js"></script>
+  <script src="/assets/js/TweenLite.min.js"></script>
+  <script src="/assets/js/jquery.gsap.min.js"></script>
+{% endblock %}
+
 {% block body %}
 
 	<div class="wrap blue" style="padding:10px;">
 		{% if done %}
-		<p style="text-align:center">Heureux de vous revoir <strong>{{ username|raw }}</strong> !<br>
-		<span style="font-size:0.8em;">Vous êtes déjà inscrit à notre jeu concours.</span></p>
+		<p style="text-align:center">Heureux de te revoir <strong>{{ username|raw }}</strong> !<br>
+		<span style="font-size:0.8em;">Tu es déjà inscrit à notre jeu concours.</span></p>
 		{% else %}
 		<p style="text-align:center">Bienvenue <strong>{{ username|raw }}</strong> !</p>
 		{% endif %}
 	</div>
 
 	<div id="fonepad">
-		<img src="/assets/images/fonepad-tablet.png" id="fonepad-tablet">
-		<img src="/assets/images/fonepad-shadow.png" id="fonepad-shadow">
-		<img src="/assets/images/fonepad-title.png" id="fonepad-title">
+		<img src="/assets/images/fonepad-tablet.png" id="fonepad-tablet" style="display:none;">
+		<img src="/assets/images/fonepad-shadow.png" id="fonepad-shadow" style="display:none;">
+		<img src="/assets/images/fonepad-title.png" id="fonepad-title" style="display:none;">
 		
-		<div id="fonepad-stats">
+		<div id="fonepad-stats" style="display:none;">
 			<p>ME371MG - 3G 16Go Champagne</p>
 			<ul>
 				<li>Wifi + 3G + Téléphone</li>
@@ -32,11 +40,12 @@
 	
 	{% if not done %}
 	<div class="wrap blue">
-		<h2>Comment participer ?</h2>
-		<p>Choisissez au moins 5 de vos amis auquels nous enverrons un message. C’est aussi simple que cela ! Vos amis seront invités à participer eux aussi à notre jeu.</p>
+		<p style="text-align:center;">
+			<a href="{{ path('participate') }}" class="button">Je participe !</a>
+		</p>
 	</div>
 	{% endif %}
-	
+
 	<div class="wrap">
 		<div class="col left">
 			<h2>Calendrier des tirages</h2>
@@ -55,16 +64,22 @@
 			</ul>
 		</div>
 	</div>
-	
-	{% if not done %}
-	<div class="wrap blue">
-		<div class="col left">
-			<h2 style="text-align:right;line-height:2em;margin:0;">Vous êtes prêt ?</h2>
-		</div>
-		<div class="col right">
-			<a href="{{ path('participate') }}" class="button">Je participe !</a>
-		</div>
-	</div>
-	{% endif %}
 		
+	<script>
+	$(document).ready(function() {
+		
+		$('#fonepad img, #fonepad-stats').show().css({opacity:0});
+		$('#fonepad-title').css({top:15}).animate({opacity:1,top:55}, {duration:500, easing:Quad.easeOut, complete:function() {
+			$('#fonepad-tablet').css({top:5}).animate({opacity:1,top:45}, {duration:500, easing:Quad.easeOut});
+			$('#fonepad-shadow').css({left:472}).animate({opacity:1,left:452}, {duration:500, easing:Quad.easeOut, complete:function() {
+				$('#fonepad-stats').css({top:232}).animate({opacity:1,top:211}, {duration:500, easing:Quad.easeOut});
+			}});
+		}});
+		
+		
+		/*$('#fonepad-shadow');
+		$('#fonepad-title');
+		$('#fonepad-tablet');*/
+	});
+	</script>
 {% endblock %}

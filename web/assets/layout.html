@@ -14,7 +14,9 @@
   <meta property="fb:app_id" content="{{ og.id }}" />
   <link href="/assets/css/normalize.css" media="screen" rel="stylesheet" type="text/css" />
   <link href="/assets/css/styles.css" media="screen" rel="stylesheet" type="text/css" />
+{% block javascripts %}
   <script src="/assets/js/jquery-1.9.1.min.js"></script>
+{% endblock %}
 </head>
 <body>
 <div id="fb-root"></div>
@@ -45,7 +47,5 @@
 
 {% endblock %}
 </div>
-{% block javascripts %}
-{% endblock %}
 </body>
 </html>

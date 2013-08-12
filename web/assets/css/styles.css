@@ -35,7 +35,7 @@ ul li { line-height:28px; }
 a { color:#0f86c4; }
 a:hover { color:#e45425; }
 
-#fonepad { position:relative; width:760px; height:470px; background:url(/assets/images/fonepad-background.jpg); }
+#fonepad { position:relative; overflow:hidden; width:760px; height:470px; background:url(/assets/images/fonepad-background.jpg); }
 #fonepad-title { position:absolute; width:351px; height:119px; top:55px; left:50px; }
 #fonepad-tablet { position:absolute; width:237px; height:400px; top:45px; left:455px; }
 #fonepad-shadow { position:absolute; width:308px; height:73px; top:379px; left:452px; }
